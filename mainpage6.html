@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINOTEGOJJAM HOSPITAL</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .services ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .services li {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: yellow; /* yellow background for list items */
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .services li span {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px; /* Circular border around text */
+            color: red; /* Initial text color */
+            transition: all 0.3s ease-in-out;
+            border: 2px solid red; /* Red border around the text */
+            background-color: green; /* Green background for the circular text */
+        }
+
+        .services li span:hover {
+            background-color: yellow; /* Background color remains green on hover */
+            color: white; /* Text color changes to white */
+            box-shadow: 0 0 10px 5px rgba(0, 255, 0, 0.7); /* Green glow effect */
+            border-color: green; /* Border changes to match background */
+        }
+
+        header {
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+        }
+
+        section {
+            margin: 20px 0;
+        }
+
+        .contact-info, .experience, .services {
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .experience {
+            background-color: red; /* Red background for customer experience section */
+        }
+
+        .photos img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 10px auto;
+            background-color: black;
+        }
+
+        .experience-list {
+            margin-top: 20px;
+            list-style-type: none;
+        }
+
+        .experience-list li {
+            background-color: #e2e2e2;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .admin-section {
+            display: none; /* Initially hidden */
+            margin-top: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        #experience {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .char-count {
+            font-size: 14px;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        .button {
+            background-color: green; /* Button background color */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .button:hover {
+            background-color: darkgreen; /* Darker green on hover */
+        }
+
+        .upload-link {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .upload-link:hover {
+            background-color: #45a049;
+        }
+
+        .hidden-file-input {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>FINOTE GOJJAM HOSPITAL <br>ፍኖተ ጎጃም ሆስፒታል </h1>
+    <h3>Address አድራሻ <br> Debremarkos Town, Kebele 10, Near to Abima Mariam</h3>
+    <h4>Contact phone ስልክ: <br> 
+        <h2>+251581783042</h2>
+    <h1>24 ሰዓት ክፍት ነዉ <br> Open 24/7</h1>
+</header>
+
+<section class="services">
+    <h2>Services Offered</h2>
+    <ul>
+        <li><span>General Surgery</span></li>
+        <li><span>Medicine</span></li>
+        <li><span>Paediatrics</span></li>
+        <li><span>Obstetrics</span></li>
+    </ul>
+</section>
+
+<section class="experience">
+    <h2>Customer's Experience Sharing <br>የደንበኞች አስተያየት መስጫ</h2>
+    <textarea name="experience" id="experience" cols="50" rows="10" placeholder="Share your experience with FINOTEGOJJAM HOSPITAL <br> ሐሳብዎን በአጭሩ እዚህ ጋር ይጻፉ፡፡ ለአማርኛ በመጀመሪያ በ word ላይ ጽፈዉ ከዚያ ወደ ዚህ ኮፒ አድርገዉ ያምጡት፡፡"></textarea>
+    <div class="char-count" id="charCount">0/500 characters</div>
+    <br>
+    <button class="button" onclick="submitExperience()">Submit Experience</button>
+    
+    <!-- Admin section (hidden initially) -->
+    <div class="admin-section" id="adminSection">
+        <h3>Admin: Manage Customer Experiences</h3>
+        <ul class="experience-list" id="experienceList"></ul>
+        <button class="button" onclick="pushToCustomers()">Push Selected to All Customers</button>
+    </div>
+</section>
+
+<section class="photos">
+    <h2>Photos of the Hospital</h2>
+    
+    <!-- Upload link that triggers file input -->
+    <a href="#" class="upload-link" onclick="document.getElementById('photoUpload').click(); return false;">Upload Photo</a>
+    <input type="file" id="photoUpload" class="hidden-file-input" accept="image/*">
+</section>
+
+<footer class="footer">
+    <p>&copy; 2024 FINOTEGOJJAM HOSPITAL - All Rights Reserved</p>
+</footer>
+
+<script>
+    // Check if the current user is an admin (for demo purposes we assume the admin)
+    var isAdmin = true;  // Set to false for customers
+    var experiences = [];
+
+    if (isAdmin) {
+        document.getElementById('adminSection').style.display = 'block';
+    }
+
+    function updateCharCount() {
+        var experienceText = document.getElementById('experience').value;
+        var charCount = experienceText.length;
+        document.getElementById('charCount').textContent = charCount + "/500 characters";
+    }
+
+    function submitExperience() {
+        var experienceText = document.getElementById('experience').value;
+        var charCount = experienceText.length;
+
+        if (charCount > 500) {
+            alert("Your experience exceeds the 500-character limit. Please shorten your comment.");
+            return;
+        }
+
+        if (experienceText.trim() === "") {
+            alert("Please enter your experience before submitting.");
+            return;
+        }
+
+        experiences.push({ text: experienceText, shared: false });
+
+        // Clear the textarea
+        document.getElementById('experience').value = "";
+        document.getElementById('charCount').textContent = "0/500 characters";
+
+        // If admin, show all experiences
+        if (isAdmin) {
+            displayExperiences();
+        }
+    }
+
+    function displayExperiences() {
+        var experienceList = document.getElementById('experienceList');
+        experienceList.innerHTML = '';
+
+        experiences.forEach(function(exp, index) {
+            var li = document.createElement('li');
+            li.innerHTML = `<input type="checkbox" id="exp${index}" ${exp.shared ? 'checked' : ''}> ${exp.text}`;
+            experienceList.appendChild(li);
+        });
+    }
+
+    function pushToCustomers() {
+        experiences.forEach(function(exp, index) {
+            var checkbox = document.getElementById('exp') }
+        )
+        }
